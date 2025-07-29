@@ -1,10 +1,9 @@
 from flask_wtf import FlaskForm
-from flask_wtf.file import FileField, FileAllowed, FileRequired
-from wtforms import StringField, PasswordField, SubmitField, BooleanField, TextAreaField
-from wtforms.validators import DataRequired, Length, Email, EqualTo, ValidationError
-from flask_blog.models import User
+from flask_wtf.file import FileField, FileAllowed
+from wtforms import StringField, PasswordField, SubmitField, BooleanField, ValidationError
+from wtforms.validators import DataRequired, Length, Email, EqualTo
 from flask_login import current_user
-import email_validator
+from flask_blog.models import User
 
 
 class registeration_form(FlaskForm):
@@ -60,10 +59,6 @@ class update_account_form(FlaskForm):
             if user:
                 raise ValidationError('This email is already in use.')
 
-class post_form(FlaskForm):
-    title = StringField('Title', validators=[DataRequired()])
-    content = TextAreaField('Content', validators=[DataRequired()])
-    submit = SubmitField('Post')
 
 class request_reset_form(FlaskForm):
     email = StringField('Email',
