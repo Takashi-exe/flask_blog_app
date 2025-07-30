@@ -34,7 +34,7 @@ def login():
         if user and bcrypt.check_password_hash(user.password, form.password.data):
             login_user(user, remember=form.remember.data)
             next_page = request.args.get('next')
-            return redirect(next_page) if next_page else redirect(url_for('home'))
+            return redirect(next_page) if next_page else redirect(url_for('main.home'))
         else:
             flash("Login unsuccessful, check email and password", "danger")
     return render_template('login.html', title = 'Login', form = form)
@@ -57,7 +57,7 @@ def account():
         current_user.email = form.email.data
         db.session.commit()
         flash("Account updated successfully!", "success")
-        return redirect(url_for('account'))
+        return redirect(url_for('users.account'))
     elif request.method == 'GET':
         form.username.data = current_user.username
         form.email.data = current_user.email
@@ -86,7 +86,7 @@ def reset_request():
         user = User.query.filter_by(email = form.email.data).first()
         send_reset_email(user)
         flash("An email has been sent with instructions to reset your password", "info")
-        return redirect(url_for('login'))
+        return redirect(url_for('users.login'))
     return render_template('reset_request.html', title = 'Reset Password', form = form)
 
 @users.route("/reset_password/<token>", methods = ['GET', 'POST'])
